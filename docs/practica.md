@@ -1,11 +1,13 @@
 # Práctica 1: (HTML5 + CSS + JS + API)
 
 ## Contexto
+
 En esta práctica construirás un **mini Weather Dashboard**: una página web donde escribes una ciudad y se muestra el clima actual.
 
 **Duración sugerida:** 2 horas (laboratorio).
 
 ## Producto final esperado
+
 Una página que permite escribir una ciudad o la latitud y longitud de una ciudad, y mostrar:
 
 - Nombre de la ciudad y país
@@ -14,17 +16,21 @@ Una página que permite escribir una ciudad o la latitud y longitud de una ciuda
 - Estado de carga y manejo de error (ciudad inválida / sin red / API key inválida)
 
 ## Habilidades que repasa
+
 ### HTML (semantico)
+
 - Etiquetas comunes y HTML5 semántico: `header`, `main`, `section`, `article`, `footer`
 - Formularios: `form`, `label`, `input`, `button`
 
 ### CSS
+
 - Selectores (tag, clase, id), combinadores
 - Box model: padding, margin, border, `box-sizing`
 - Tipografía, colores, `border-radius`
 - Layout: **CSS Grid**
 
 ### JavaScript
+
 - DOM: `querySelector`, eventos
 - HTTP: `fetch`
 - Async: `async/await`
@@ -32,9 +38,10 @@ Una página que permite escribir una ciudad o la latitud y longitud de una ciuda
 - Renderizado en DOM (actualizar texto/atributos)
 
 ## Estructura del repositorio
+
 > Importante: el **código está dentro de `src/`**.
 
-```
+``` bash
 Practica-1/
 ├─ README.md
 ├─ docs/
@@ -53,71 +60,66 @@ Practica-1/
 ```
 
 **Idea de arquitectura (separación de responsabilidades):**
+
 - `api/`: solo red/datos (no toca DOM)
 - `ui/`: solo DOM/render (no llama a la red)
 - `main.js`: orquesta (evento → API → UI)
 
 ## Nota importante: API Key (OpenWeather)
+
 Para consultar OpenWeather necesitas una **API key**.
 
 - En esta práctica, necesitaras usar tu propia API key de OpenWeather. Puedes obtenerla gratis registrándote en su sitio web haciendo clic aqui: [OpenWeather API Key](https://home.openweathermap.org/users/sign_up).
 - **Importante **NO** debes subir tu API key a GitHub.**
 
-Listo: ya lo ajusté para que **los archivos no traigan la solución** y el `docs/practica.md` los guíe a **escribir el código en clase**, sin mostrarles snippets.
+## Guía por tiempo
 
-[Descargar repo semilla (sin solución)](sandbox:/mnt/data/weather-lab-seed-no-solution.zip)
-
-### Guía por tiempo (2 horas) — versión “hazlo tú” (sin código)
-
-#### 0–10 min | Setup + objetivo
+### Setup + objetivo
 
 * Revisa la estructura del repo (`docs/` y `src/`).
 * Abre `src/index.html` con un servidor local (recomendado: Live Server).
+* Edita `src/index.html` para añadir una estructura de basica de HTML5 y en los metadatos  linkea el `styles.css` y el `main.js`.
+* Abre el navegador donde esta el `index.html`
 * Abre DevTools → **Console** y confirma que no hay errores.
-* (Opcional) DevTools → **Network**: confirma que cargan `styles.css` y `main.js`.
+* DevTools → **Network**: confirma que cargan `styles.css` y `main.js`.
 
-**Checkpoint 1:** la página abre desde servidor local y no hay errores en consola.
+### HTML5 semántico + formulario
 
----
-
-#### 10–40 min | HTML5 semántico + formulario
-
-**Meta:** construir el esqueleto con semántica y accesibilidad mínima.
+**Meta:** construir el esqueleto con semántica.
 
 Tareas (en `src/index.html`):
 
 * Crea la estructura con: `header`, `main`, `section`, `article`, `footer`.
 * En el `header`: título y subtítulo.
-* En `main`: arma dos bloques lógicos:
+* En `main`: arma dos bloques `section`:
 
-  * Panel de búsqueda (formulario)
-  * Resultados (tarjeta/card)
+  + Panel de búsqueda (formulario)
+  + Resultados (tarjeta/card)
 
 Formulario (requisitos):
 
-* `form` con `id="searchForm"`.
+* `form`.
 * `label` con `for` apuntando al input.
-* `input` con `id="cityInput"`, `name="city"`, `required` y un placeholder.
-* `button` con `type="submit"`.
+* `input` con `id="cityInput"`, `name="city"`y un placeholder.
+* `input` con `id="latInput"`, `name="latitude"`y un placeholder.
+* `input` con `id="lonInput"`, `name="longitude"`y un placeholder.
+* `button` con `type="submit"` y `id="btnSearchByName"`.
+* `button` con `type="submit"` y `id="btnSearchByLatLon"`.
 
 Mensajes:
 
-* Un elemento para estado/errores con `id="status"` y `aria-live="polite"`.
+* Un elemento `p` para estado/errores con `id="status"`.
 
 Tarjeta de resultados (requisitos):
 
 * Un `article` con `id="card"` y clase `hidden` (oculta al inicio).
 * Dentro, agrega elementos con estos IDs (se usan después en JS):
 
-  * `place`, `icon`, `desc`, `temp`, `feels`, `humidity`, `wind`.
+  + `place`, `icon`, `desc`, `temp`, `feels`, `humidity`, `wind`.
 
-**Checkpoint 2:** ves el formulario; el card sigue oculto (por `.hidden`).
+### CSS: selectores + box model + grid
 
----
-
-#### 40–80 min | CSS: selectores + box model + grid
-
-**Meta:** que se vea “app” y sea responsive.
+**Meta:** que se vea la app "bonita".
 
 Tareas (en `src/assets/css/styles.css`):
 
@@ -125,8 +127,8 @@ Tareas (en `src/assets/css/styles.css`):
 * Define tipografía base y quita márgenes por defecto del `body`.
 * Estiliza contenedores:
 
-  * `.container` con **Grid** + `gap`
-  * `.panel` y `.card` como “cajas” (borde, padding, border-radius)
+  + `.container` con **Grid** + `gap`
+  + `.panel` y `.card` como “cajas” (borde, padding, border-radius)
 * Estiliza el formulario:
 
   * `.search` con layout vertical y separación
@@ -136,10 +138,6 @@ Tareas (en `src/assets/css/styles.css`):
 
   * `.metrics` como grid responsive (tarjetitas internas)
   * `.hidden` que realmente oculte el card
-* Media query para pasar de 1 columna a 2 columnas en pantallas anchas.
-
-**Checkpoint 3:** el layout se ve como “app” y responde al ancho (1 → 2 columnas).
-
 
 #### 80–110 min | JS: DOM + fetch + async/await
 
@@ -147,12 +145,7 @@ Tareas (en `src/assets/css/styles.css`):
 
 Tareas:
 
-1. **Config local (sin subir key)**
-
-* Crea `src/assets/js/config.js` (solo local) para guardar tu API key.
-* Verifica que **no se suba**: el repo ya ignora ese archivo en `.gitignore`.
-
-2. **API module**
+1. **API module**
 
 * En `src/assets/js/api/openweather.js` implementa una función asíncrona para:
 
@@ -161,7 +154,7 @@ Tareas:
   * Revisar `res.ok` y lanzar error con el status si falla
   * Regresar JSON con el clima actual
 
-3. **UI module**
+2. **UI module**
 
 * En `src/assets/js/ui/render.js` implementa:
 
@@ -169,7 +162,7 @@ Tareas:
   * mostrar/ocultar card alternando `.hidden`
   * pintar datos en el DOM (place, desc, métricas e ícono)
 
-4. **Orquestación**
+3. **Orquestación**
 
 * En `src/assets/js/main.js` implementa el flujo:
 
@@ -185,16 +178,13 @@ Pruebas manuales:
 * Ciudad inválida: “asdfghj”
 * API key incorrecta: debe reflejar error HTTP (p. ej. 401)
 
-**Checkpoint 4:** al buscar una ciudad válida, aparece el card con métricas e ícono.
 
-
-#### 110–120 min | Cierre
+### Cierre
 
 * Repaso: **HTML estructura → CSS layout → JS datos/render**
-* Recomendaciones de entrega (README completo y key fuera del repo).
 
+## Entregables
 
-## 7) Entregables (obligatorios)
 1. **Funcionalidad:** buscar ciudad y mostrar el card con datos:
    - lugar (ciudad, país)
    - temp, sensación, humedad, viento
@@ -208,27 +198,26 @@ Pruebas manuales:
    - **Problemas/incidencias** (qué se te complicó y cómo lo resolviste o qué quedó pendiente)
    - (opcional) captura de pantalla
 
-## 8) Retos (opcionales)
-Elige 1 o más:
-1. **Loader real** (spinner) mientras carga.
-2. Guardar la **última ciudad** en `localStorage` y cargarla al abrir.
-3. Cambiar estilos según el clima (lluvia/soleado/noche) usando clases CSS.
-4. Agregar **forecast 5 días** y renderizar 5 tarjetas.
-5. Botón “Usar mi ubicación” con `navigator.geolocation` + endpoint por lat/lon.
+## Referencias sugeridas
 
-## 9) Criterios de evaluación (orientativos)
-- HTML semántico y formulario correcto
-- CSS: selectores + box model + grid + responsive
-- JS: fetch + async/await + manejo de errores + render correcto
-- README claro y reproducible
+### Referencias generales
 
-## 10) Referencias sugeridas
-- MDN Web Docs (HTML, CSS, JS, Fetch API, CSS Grid)
-- OpenWeather: documentación de “Current Weather” y “Weather Conditions / icons”
+- [cheatsheets](https://htmlcheatsheet.com/http://example.net/)
+- [documentacion](https://developer.mozilla.org/en-US/)
+- [API](https://openweathermap.org/)
+- [API DOCS](https://openweathermap.org/current?collection=current_forecast)
 
-## 11) Checkpoints sugeridos (para la clase)
-Si vas programando en vivo, estos checkpoints te ayudan a “marcar” avances (por ejemplo como commits):
-1. **CH1**: HTML semántico + formulario + card oculto.
-2. **CH2**: CSS base (box model + grid + responsive).
-3. **CH3**: JS listo (submit + loading + fetch + render).
-4. **CH4**: Manejo de errores afinado + pruebas de casos (401/404/offline).
+### Donde practicar CSS
+
+- [Froggy](https://flexboxfroggy.com/#es)
+- [Garden](https://cssgridgarden.com/#es)
+- [CSS Diner](https://flukeout.github.io/)
+- [CSS Battle](https://cssbattle.dev/)
+
+### Donde practicar JS
+
+- [Aprende JavaScript](https://aprendejavascript.org/)
+
+### Donde Practicar HTML
+
+- [W3 school](https://www.w3schools.com/html/)
